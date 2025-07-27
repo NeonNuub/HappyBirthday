@@ -214,6 +214,19 @@
     const bgm = document.getElementById('bgm');
     const musicToggle = document.getElementById('music-toggle');
 
+let bgmStarted = false;
+
+document.addEventListener('click', () => {
+  if (!bgmStarted) {
+    bgm.play().then(() => {
+      musicToggle.textContent = 'Pause Music';
+      bgmStarted = true;
+    }).catch((err) => {
+      console.warn('Autoplay failed:', err);
+    });
+  }
+}, { once: true });
+    
     musicToggle.addEventListener('click', () => {
       if (bgm.paused) {
         bgm.play();
