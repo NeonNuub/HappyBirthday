@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escape from Meow Manor</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #fff9f9;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      transition: background-color 0.6s ease;
+    }
+    .level {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    .active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    img {
+      max-width: 90%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    img:hover {
+      transform: scale(1.05);
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      border: none;
+      background-color: #ffa6c1;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background-color: #ff7ea2;
+      transform: scale(1.05);
+    }
+    input {
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    h1, h2, h3 {
+      margin-bottom: 10px;
+    }
+    /* Optional tooltip style for hint images */
+    .hint-text {
+      font-style: italic;
+      color: #888;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgm" loop autoplay>
+    <source src="assets/Theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button id="music-toggle">Pause Music</button>
+
+  <div id="intro" class="active level">
+    <h1>🐱 The Cat Chronicles: Escape from Meow Manor 🐾</h1>
+    <img src="https://www.shutterstock.com/image-photo/purrfect-party-birthday-cat-celebration-600nw-2624367845.jpg" alt="Intro Cat">
+    <p>Happy 14th Birthday, Jolicaia!</p>
+    <p>You've entered the mysterious Meow Manor. Solve all 10 clever puzzles to escape!</p>
+    <button onclick="nextLevel()">Start Level 1</button>
+  </div>
+
+  <div id="level1" class="level">
+    <h2>Level 1 – Algebra Attack 📐</h2>
+    <img src="https://math-fail.com/wp-content/uploads/Math-Fail-Pics-347.jpg" alt="Algebra Puzzle Hint">
+    <p>Solve for x: 5x - 7 = 3x + 9</p>
+    <input type="text" id="eq1" />
+    <button onclick="checkAnswer(1, '8', 'eq1')">Submit</button>
+  </div>
+  
+  <div id="level2" class="level">
+    <h2>Level 2 – Cat Scramble 🧩</h2>
+    <img src="https://forlittleeyes.com/wp-content/uploads/2018/03/giphy1.gif" alt="Cat Scramble Puzzle">
+    <p>Unscramble this feline phrase: "TEH ACAT SAP"</p>
+    <input type="text" id="word1" />
+    <button onclick="checkAnswer(2, 'the cat spa', 'word1')">Submit</button>
+  </div>
+
+  <div id="level3" class="level">
+    <h2>Level 3 – The River Riddle 🛶</h2>
+    <img src="https://preview.redd.it/2ij7b651y0k61.jpg?width=640&crop=smart&auto=webp&s=37146a7b70893d72d84e40266b53bf1a936a2214" alt="River Riddle Hint">
+    <p>A cat, a dog, and a fish must cross a river. The cat cannot be left with the fish, the dog cannot be left with the cat. Who crosses with the boatman first?</p>
+    <input type="text" id="logic1" />
+    <button onclick="checkAnswer(3, 'dog', 'logic1')">Submit</button>
+    <p class="hint-text">Hint: Look carefully who can go first without danger...</p>
+  </div>
+  
+  <div id="level4" class="level">
+    <h2>Level 4 – Hidden Word 🔍</h2>
+    <img src="https://media.istockphoto.com/id/1195096541/photo/red-maine-coon-cat-laying-on-a-table-against-question-mark-background.jpg?s=612x612&w=0&k=20&c=hVdidPL5U9N9bAoMXX1lyQJPSf_rR6xVRj4YVgqSw4A=" alt="Hidden Word Hint">
+    <p>Find the hidden word: "Caterpillars tend to nap in sunny spots." What animal is hiding?</p>
+    <input type="text" id="read1" />
+    <button onclick="checkAnswer(4, 'cat', 'read1')">Submit</button>
+  </div>
+  
+  <div id="level5" class="level">
+    <h2>Level 5 – Pattern Master ➕</h2>
+    <img src="https://www.shutterstock.com/image-photo/bengal-cat-counts-on-calculator-600nw-1993561121.jpg" alt="Pattern Sequence Hint">
+    <p>What comes next? 1, 4, 9, 16, 25, ...</p>
+    <input type="text" id="seq1" />
+    <button onclick="checkAnswer(5, '36', 'seq1')">Submit</button>
+  </div>
+  
+  <div id="level6" class="level">
+    <h2>Level 6 – Cat Logic 🐾</h2>
+    <img src="https://www.amcny.org/wp-content/uploads/2018/03/cat-mouse.jpg" alt="Cat Logic Hint">
+    <p>Three cats can catch three mice in three minutes. How many cats are needed to catch 100 mice in 100 minutes?</p>
+    <input type="text" id="riddle1" />
+    <button onclick="checkAnswer(6, '3', 'riddle1')">Submit</button>
+  </div>
+  
+  <div id="level7" class="level">
+    <h2>Level 7 – Anagram Twist 🌀</h2>
+    <img src="https://assets3.thrillist.com/v1/image/2880454/414x310/crop;webp=auto;jpeg_quality=60;progressive.jpg" alt="Anagram Puzzle Hint">
+    <p>Unscramble: RHEOT</p>
+    <input type="text" id="anagram1" />
+    <button onclick="checkAnswer(7, 'other', 'anagram1')">Submit</button>
+  </div>
+  
+  <div id="level8" class="level">
+    <h2>Level 8 – Time Mystery ⏳</h2>
+    <img src="https://www.seattleareafelinerescue.org/wp-content/uploads/2023/04/201054C-_MG_4420-scaled.jpg" alt="Time Mystery Hint">
+    <p>If Whiskers naps 2 hours in the morning, 4 in the afternoon, and 6 at night, how many hours is she awake?</p>
+    <input type="text" id="math2" />
+    <button onclick="checkAnswer(8, '12', 'math2')">Submit</button>
+    <p class="hint-text">Hint: Remember a day has 24 hours total.</p>
+  </div>
+  
+  <div id="level9" class="level">
+    <h2>Level 9 – Trivia Challenge ❓</h2>
+    <img src="https://i.pinimg.com/564x/38/18/7b/38187bfe052da1aa1b3afa3ed2e7938f.jpg" alt="Trivia Hint">
+    <p>What is the scientific name for the domestic cat?</p>
+    <input type="text" id="trivia1" />
+    <button onclick="checkAnswer(9, 'felis catus', 'trivia1')">Submit</button>
+  </div>
+  
+  <div id="level10" class="level">
+    <h2>Final Level – Cipher Breaker 🔐</h2>
+    <img src="https://media.tenor.com/t3dLLNaI50oAAAAM/cat-cats.gif" alt="Cipher Puzzle Hint">
+    <p>“MEOW” becomes 13-5-15-23. Reverse the order and subtract 1 from each. What 4-digit number do you get?</p>
+    <input type="text" id="code1" />
+    <button onclick="checkAnswer(10, '2214412', 'code1')">Escape!</button>
+    <p class="hint-text">Hint: Use alphabetical positions (A=1), then reverse and subtract 1 from each digit.</p>
+  </div>
+  
+  <div id="win" class="level">
+    <h1 style="font-size: 2.5rem; color: #e63995;">🎉 You Escaped! 🎉</h1>
+    <p style="font-size: 1.3rem;">Happy 14th Birthday, Jolicaia!</p>
+    <p style="margin-top: 10px;">You solved the Cat Chronicles and escaped Meow Manor! 🐱💖</p>
+    <p style="margin-top: 10px;">You are an amazing cat detective, and I'm so proud of you!</p>
+    <p style="margin-top: 10px;">You are also an amazing cat person, and I'm so glad that I met you, and I'm so glad that I'm your friend!</p>
+    <img src="https://www.ardeaprints.com/p/172/cat-tabby-kitten-looking-camera-24519070.jpg.webp"" alt="Victory Cat" />
+    <button onclick="restartGame()">Play Again</button>
+  </div>
+
+  <script>
+    let currentLevel = 0;
+    const levels = document.querySelectorAll('.level');
+
+    function nextLevel() {
+      levels.forEach(div => div.classList.remove('active'));
+      currentLevel++;
+      if (currentLevel <= 10) {
+        document.getElementById('level' + currentLevel).classList.add('active');
+      } else {
+        document.getElementById('win').classList.add('active');
+      }
+    }
+
+    function checkAnswer(level, correctAnswer, inputId = '') {
+      const input = document.getElementById(inputId);
+      const userAnswer = input.value.trim().toLowerCase();
+      if (userAnswer === correctAnswer.toLowerCase()) {
+        nextLevel();
+      } else {
+        alert("Try again, brave cat detective! 🐾");
+      }
+    }
+
+    function restartGame() {
+      location.reload();
+    }
+
+    const bgm = document.getElementById('bgm');
+    const musicToggle = document.getElementById('music-toggle');
+
+    musicToggle.addEventListener('click', () => {
+      if (bgm.paused) {
+        bgm.play();
+        musicToggle.textContent = 'Pause Music';
+      } else {
+        bgm.pause();
+        musicToggle.textContent = 'Play Music';
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        bgm.pause();
+        musicToggle.textContent = 'Play Music';
+      } else {
+        bgm.play();
+        musicToggle.textContent = 'Pause Music';
+      }
+    });
+  </script>
+
+</body>
+</html>
